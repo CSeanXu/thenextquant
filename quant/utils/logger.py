@@ -111,12 +111,9 @@ def _log_msg_header(*args, **kwargs):
     func_name = sys._getframe().f_back.f_back.f_code.co_name
     session_id = "-"
     try:
-        _caller = kwargs.get("caller", None)
+        _caller = kwargs.pop("caller", None)
         if _caller:
-            if not hasattr(_caller, "__name__"):
-                _caller = _caller.__class__
-            cls_name = _caller.__name__
-            del kwargs["caller"]
+            cls_name = getattr(_caller, "__name__", _caller.__class__.__name__)
     except:
         pass
     finally:
